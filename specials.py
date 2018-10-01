@@ -14,6 +14,7 @@ specials_value = {
     'APOM': prices['AP1'] * 0.5
 }
 
+
 # cart is a frequency map of items
 def apply_specials(cart):
     specials_applied = {}

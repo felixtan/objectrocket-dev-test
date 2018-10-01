@@ -5,6 +5,7 @@ from signal import signal, SIGINT
 from prices import prices
 from specials import apply_specials
 
+
 # cart is a frequency map of items
 def calculate_subtotal(cart):
     subtotal = 0
@@ -12,11 +13,13 @@ def calculate_subtotal(cart):
         subtotal += prices[item] * amt
     return subtotal
 
+
 # cart is a frequency map of items
 def checkout(cart):
     subtotal = calculate_subtotal(cart)
     discount = apply_specials(cart)
     return subtotal - discount
+
 
 def parse_cart(items):
     if isinstance(items, str):
@@ -29,7 +32,7 @@ def parse_cart(items):
 
     catalog = prices.keys()
     cart = {}
- 
+
     # count the items
     for item in items:
         if item not in catalog:
@@ -42,14 +45,16 @@ def parse_cart(items):
 
     return cart
 
+
 def sigint_handler(signal, handler):
     print()
     sys.exit(0)
 
+
 if __name__ == '__main__':
     signal(SIGINT, sigint_handler)
 
-    while True:    
+    while True:
         cart_string = input('Basket: ')
         cart = parse_cart(cart_string)
         total = checkout(cart)

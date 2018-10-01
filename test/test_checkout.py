@@ -3,7 +3,9 @@ import checkout
 from specials import specials_rules, apply_specials
 from prices import prices
 
+
 class TestSpecials(unittest.TestCase):
+
     def test_applies_BOGO(self): 
         specials_applied = {}
 
@@ -92,7 +94,9 @@ class TestSpecials(unittest.TestCase):
         cart = { 'CF1': 4, 'AP1': 4, 'CH1': 2, 'MK1': 2, 'OM1': 2 }
         self.assertEqual(apply_specials(cart), 34.71)
 
+
 class TestCheckout(unittest.TestCase):
+    
     def test_parse_cart(self):
         items = ['CH1,', 'AP1,', 'CF1']
         cart = { 'CH1': 1, 'AP1': 1, 'CF1': 1 }
