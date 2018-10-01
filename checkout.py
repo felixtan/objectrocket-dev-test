@@ -1,4 +1,7 @@
+#!/usr/bin/env python3
+
 import sys
+from signal import signal, SIGINT
 from prices import prices
 from specials import apply_specials
 
@@ -15,8 +18,16 @@ def checkout(cart):
     discount = apply_specials(cart)
     return subtotal - discount
 
-def gather_cart(items):
-    items = [i.replace(',', '') for i in items]
+def parse_cart(items):
+    if isinstance(items, str):
+        if ',' in items:
+            items = items.split(',')
+        else:
+            items = items.split(' ')
+
+
+    items = [i.strip().replace(',', '') for i in items]
+
     catalog = prices.keys()
     cart = {}
  
@@ -32,7 +43,15 @@ def gather_cart(items):
 
     return cart
 
+def sigint_handler(signal, handler):
+    print()
+    sys.exit(0)
+
 if __name__ == '__main__':
-    cart = gather_cart(sys.argv[1:])
-    total = checkout(cart)
-    print(total)
+    signal(SIGINT, sigint_handler)
+
+    while True:    
+        cart_string = input('Basket: ')
+        cart = parse_cart(cart_string)
+        total = checkout(cart)
+        print(f'Total: ${total}')

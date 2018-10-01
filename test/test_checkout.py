@@ -93,17 +93,17 @@ class TestSpecials(unittest.TestCase):
         self.assertEqual(apply_specials(cart), 34.71)
 
 class TestCheckout(unittest.TestCase):
-    def test_gather_cart(self):
+    def test_parse_cart(self):
         items = ['CH1,', 'AP1,', 'CF1']
         cart = { 'CH1': 1, 'AP1': 1, 'CF1': 1 }
-        self.assertEqual(checkout.gather_cart(items), cart)
+        self.assertEqual(checkout.parse_cart(items), cart)
 
         items = ['CH1', 'AP1', 'CF1', 'OM1', 'MK1', 'AP1']
         cart = { 'CH1': 1, 'AP1': 2, 'CF1': 1, 'OM1': 1, 'MK1': 1 }
-        self.assertEqual(checkout.gather_cart(items), cart)
+        self.assertEqual(checkout.parse_cart(items), cart)
 
         items = ['CH1', 'AB1']
-        self.assertRaises(ValueError, checkout.gather_cart, items)
+        self.assertRaises(ValueError, checkout.parse_cart, items)
 
     def test_calculate_subtotal(self):
         cart = {}

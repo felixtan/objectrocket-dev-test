@@ -16,8 +16,6 @@ specials_value = {
 
 # cart is a frequency map of items
 def apply_specials(cart):
-    print('cart:', cart)
-
     specials_applied = {}
     for special, rule in specials_rules.items():
         specials_applied[special] = rule(cart, specials_applied)
