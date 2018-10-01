@@ -13,7 +13,7 @@ def calculate_subtotal(cart):
 def checkout(cart):
     subtotal = calculate_subtotal(cart)
     discount = apply_specials(cart)
-    return subtotal + discount
+    return subtotal - discount
 
 def gather_cart(items):
     items = [i.replace(',', '') for i in items]

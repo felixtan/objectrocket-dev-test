@@ -1,60 +1,29 @@
 from prices import prices
 
-def apply_BOGO(cart):
-    """Buy one get one free on coffee (unlimited)
-    """
-    coffee_code = 'CF1'
-    if coffee_code in cart:
-        print('apply BOGO')
-        free_coffees = cart[coffee_code] // 2
-        return -(free_coffees * prices[coffee_code])
-    else:
-        return 0
+specials_rules = {
+    'APOM': lambda cart, specials_applied: 1 if 'OM1' in cart and 'AP1' in cart else 0,
+    'CHMK': lambda cart, specials_applied: 1 if 'CH1' in cart and 'MK1' in cart else 0,
+    'BOGO': lambda cart, specials_applied: cart['CF1'] // 2 if 'CF1' in cart else 0,
+    'APPL': lambda cart, specials_applied: (cart['AP1'] - specials_applied['APOM']) if 'AP1' in cart and cart['AP1'] >= 3 else 0
+}
 
-def apply_APPL(cart):
-    """Price of apples drops to 4.50 when you buy 3 or more
-    """
-    apples_code = 'AP1'
-    if apples_code in cart and cart[apples_code] >= 3:
-        print('apply APPL')
-        return -cart[apples_code] * (prices[apples_code] - 4.50)
-    else:
-        return 0
-
-def apply_CHMK(cart):
-    """Purchase a box of chai and get milk free (Limit 1)
-    """
-    chai_code = 'CH1'
-    milk_code = 'MK1'
-    if chai_code in cart and milk_code in cart:
-        print('apply CHMK')
-        return -prices[milk_code]
-    else:
-        return 0
-
-def apply_APOM(cart):
-    """Purchase a bag of oatmeal and get 50% off a bag of apples
-    """
-    oatmeal_code = 'OM1'
-    apples_code = 'AP1'
-    if oatmeal_code in cart and apples_code in cart:
-        print('apply APOM')
-        apples_discounted = min(cart[oatmeal_code], cart[apples_code])
-        return -(apples_discounted * prices[apples_code] * 0.5)
-    else:
-        return 0
-
-specials = {
-    'BOGO': apply_BOGO,
-    'APPL': apply_APPL,
-    'CHMK': apply_CHMK,
-    'APOM': apply_APOM
-}    
+specials_value = {
+    'BOGO': prices['CF1'],
+    'APPL': prices['AP1'] - 4.5,
+    'CHMK': prices['MK1'],
+    'APOM': prices['AP1'] * 0.5
+}
 
 # cart is a frequency map of items
 def apply_specials(cart):
     print('cart:', cart)
+
+    specials_applied = {}
+    for special, rule in specials_rules.items():
+        specials_applied[special] = rule(cart, specials_applied)
+
     discount = 0
-    for fn in specials.values():
-        discount += fn(cart)
+    for special, times_applied in specials_applied.items():
+        discount += times_applied * specials_value[special]
+        
     return discount
