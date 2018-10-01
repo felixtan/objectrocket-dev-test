@@ -6,21 +6,27 @@
 
 ### 1. Clone the repo
 ```sh
-git clone https://github.com/felixtan/objectrocket-dev-test.git farmers-market
+$ git clone --depth 1 https://github.com/felixtan/objectrocket-dev-test.git farmers-market
 ```
 ### 2. Build the docker image
 ```sh
-cd farmers-market
-docker build -t checkout .
+$ cd farmers-market
+$ docker build -t checkout .
 ```
 ### 3. Run the container
 ```sh
-docker run -it --rm checkout
+$ docker run -it --rm checkout
 ```
 ### 4. Enter input
 ```sh
-# space or comma-separated
+# single-space or comma separated
 # ex.
-> Basket: AP1, AP1, CH1, AP1
-> Total: $16.61
+$ Basket: AP1, AP1, CH1, AP1
+$ Total: $16.61
+```
+
+## Running tests
+```sh
+$ cd farmers-market
+$ python3 -m unittest discover test
 ```
