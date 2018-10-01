@@ -25,7 +25,6 @@ def parse_cart(items):
         else:
             items = items.split(' ')
 
-
     items = [i.strip().replace(',', '') for i in items]
 
     catalog = prices.keys()
